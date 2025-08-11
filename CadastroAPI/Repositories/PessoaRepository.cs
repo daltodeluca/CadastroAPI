@@ -1,4 +1,5 @@
 ﻿using CadastroAPI.Data;
+using CadastroAPI.Entities;
 using CadastroAPI.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,35 +13,33 @@ namespace CadastroAPI.Repositories
         {
             _context = context;
         }
-
-        public async Task<IEnumerable<Pessoa>> GetAllAsync()
+        public async Task<IEnumerable<PessoaEntity>> GetAllAsync()
         {
             return await _context.People.ToListAsync();
         }
-        public async Task<Pessoa> GetByIdAsync(int id)
+        public async Task<PessoaEntity?> GetByIdAsync(int id)
         {
             return await _context.People.FindAsync(id);
         }
-        public async Task<Pessoa> CreateAsync(Pessoa pessoa)
+        public async Task<PessoaEntity> CreateAsync(PessoaEntity entity)
         {
-            _context.People.Add(pessoa);
+            _context.People.Add(entity);
             await _context.SaveChangesAsync();
-            return pessoa;
+            return entity;
         }
-        public async Task<Pessoa> UpdateAsync(Pessoa pessoa)
+        public async Task<PessoaEntity> UpdateAsync(PessoaEntity entity)
         {
-            _context.Entry(pessoa).State = EntityState.Modified;
+            _context.People.Update(entity);
             await _context.SaveChangesAsync();
-            return pessoa;
+            return entity;
         }
         public async Task<bool> DeleteAsync(int id)
         {
-            var pessoa = await _context.People.FindAsync(id);
-            if (pessoa == null)
-            {
+            var entity = await _context.People.FindAsync(id);
+            if (entity == null)
                 return false;
-            }
-            _context.People.Remove(pessoa);
+
+            _context.People.Remove(entity);
             await _context.SaveChangesAsync();
             return true;
         }
