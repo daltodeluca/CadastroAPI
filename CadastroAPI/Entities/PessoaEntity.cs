@@ -1,10 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace CadastroAPI.Models
+namespace CadastroAPI.Entities
 {
-    public class Pessoa
+    public class PessoaEntity : BaseEntity
     {
-        public int Id { get; set; }
         [Required(ErrorMessage = "O nome é obrigatório")]
         [StringLength(100, ErrorMessage = "O nome não pode ter mais de 100 caracteres")]
         public string Nome { get; set; }
@@ -19,6 +18,6 @@ namespace CadastroAPI.Models
         public DateTime DataNascimento { get; set; }
         [Required(ErrorMessage = "O telefone é obrigatório")]
         [Phone(ErrorMessage = "O telefone deve ser um número de telefone válido")]
-        public string Numero { get; set; }
+        public string Telefone { get; set; }
     }
 }
