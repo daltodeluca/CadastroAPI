@@ -1,11 +1,13 @@
-﻿namespace CadastroAPI.Repositories
+﻿using CadastroAPI.Entities;
+
+namespace CadastroAPI.Repositories
 {
     public interface IPessoaRepository
     {
-        Task<IEnumerable<Models.Pessoa>> GetAllAsync();
-        Task<Models.Pessoa> GetByIdAsync(int id);
-        Task<Models.Pessoa> CreateAsync(Models.Pessoa pessoa);
-        Task<Models.Pessoa> UpdateAsync(Models.Pessoa pessoa);
+        Task<IEnumerable<PessoaEntity?>> GetAllAsync();
+        Task<PessoaEntity?> GetByIdAsync(int id);
+        Task<PessoaEntity> CreateAsync(PessoaEntity pessoa);
+        Task<PessoaEntity?> UpdateAsync(PessoaEntity pessoa);
         Task<bool> DeleteAsync(int id);
     }
 }

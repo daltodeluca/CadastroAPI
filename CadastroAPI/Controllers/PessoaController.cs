@@ -1,6 +1,7 @@
 ﻿using CadastroAPI.Models;
 using CadastroAPI.Services;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 
 namespace CadastroAPI.Controllers
 {
@@ -25,36 +26,20 @@ namespace CadastroAPI.Controllers
         public async Task<IActionResult> GetById(int id)
         {
             var pessoa = await _pessoaService.GetByIdAsync(id);
-            if (pessoa == null)
-            {
-                return NotFound();
-            }
             return Ok(pessoa);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] Pessoa pessoa)
+        public async Task<IActionResult> Create([Required][FromBody] PessoaCreateModel model)
         {
-            if (pessoa == null)
-            {
-                return BadRequest("Pessoa não pode ser nula");
-            }
-            var createdPessoa = await _pessoaService.CreateAsync(pessoa);
+            var createdPessoa = await _pessoaService.CreateAsync(model);
             return CreatedAtAction(nameof(GetById), new { id = createdPessoa.Id }, createdPessoa);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, [FromBody] Pessoa pessoa)
+        public async Task<IActionResult> Update(int id, [Required][FromBody] PessoaUpdateModel model)
         {
-            if (pessoa == null || pessoa.Id != id)
-            {
-                return BadRequest("Dados da pessoa invalidos.");
-            }
-            var updatedPessoa = await _pessoaService.UpdateAsync(pessoa);
-            if (updatedPessoa == null)
-            {
-                return NotFound();
-            }
+            var updatedPessoa = await _pessoaService.UpdateAsync(id, model);
             return Ok(updatedPessoa);
         }
 
@@ -62,10 +47,6 @@ namespace CadastroAPI.Controllers
         public async Task<IActionResult> Delete(int id)
         {
             var deleted = await _pessoaService.DeleteAsync(id);
-            if (!deleted)
-            {
-                return NotFound();
-            }
             return NoContent();
         }
     }
