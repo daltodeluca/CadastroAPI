@@ -1,32 +1,38 @@
 using CadastroAPI.Entities;
 using CadastroAPI.Models;
-using System.Security.Cryptography;
-using System.Text;
 
 namespace CadastroAPI.Mappers
 {
     public static class UserMapper
     {
-        public static UserEntity ToEntity(this UserCreateModel model)
+        public static UserEntity ToEntity(this UserCreateModel model, byte[] passwordHash, byte[] passwordSalt)
         {
-            using var hmac = new HMACSHA512();
-            return new UserEntity(model.Name, model.Role)
+            return new UserEntity(model.Username, model.Role)
             {
-                PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(model.Password)),
-                PasswordSalt = hmac.Key
+                PasswordHash = passwordHash,
+                PasswordSalt = passwordSalt
             };
         }
 
-        public static void MapUpdateModelToEntity(this UserUpdateModel model, UserEntity entity)
+        public static void MapUpdateModelToEntity(this UserUpdateModel model, UserEntity entity, byte[]? passwordHash = null, byte[]? passwordSalt = null)
         {
-            entity.Name = model.Name;
+            entity.Username = model.Username;
             entity.Role = model.Role;
-            if (!string.IsNullOrEmpty(model.Password))
+
+            if (passwordHash != null && passwordSalt != null)
             {
-                using var hmac = new HMACSHA512();
-                entity.PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(model.Password));
-                entity.PasswordSalt = hmac.Key;
+                entity.PasswordHash = passwordHash;
+                entity.PasswordSalt = passwordSalt;
             }
+        }
+
+        public static UserEntity ToEntity(this UserRegisterModel model, byte[] passwordHash, byte[] passwordSalt)
+        {
+            return new UserEntity(model.Username, model.Role)
+            {
+                PasswordHash = passwordHash,
+                PasswordSalt = passwordSalt
+            };
         }
 
         public static UserGetModel ToGetModel(this UserEntity entity)
@@ -34,9 +40,19 @@ namespace CadastroAPI.Mappers
             return new UserGetModel
             {
                 Id = entity.Id,
-                Name = entity.Name,
+                Username = entity.Username,
                 Role = entity.Role,
                 CreatedAt = entity.CreatedAt
+            };
+        }
+
+        public static UserTokenModel ToTokenModel(this UserEntity entity, string token)
+        {
+            return new UserTokenModel
+            {
+                Token = token,
+                Username = entity.Username,
+                Role = entity.Role
             };
         }
     }

@@ -1,7 +1,7 @@
+using CadastroAPI.Auth;
 using CadastroAPI.Entities;
-using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -10,11 +10,11 @@ namespace CadastroAPI.Services
 {
     public class AuthService : IAuthService
     {
-        private readonly IConfiguration _configuration;
+        private readonly JwtSettings _jwtSettings;
 
-        public AuthService(IConfiguration configuration)
+        public AuthService(IOptions<JwtSettings> jwtOptions)
         {
-            _configuration = configuration;
+            _jwtSettings = jwtOptions.Value;
         }
 
         public string GenerateToken(UserEntity user)
@@ -22,20 +22,20 @@ namespace CadastroAPI.Services
             var claims = new[]
             {
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                new Claim(ClaimTypes.Name, user.Name),
-                new Claim(ClaimTypes.Role, user.Role)
+                new Claim(ClaimTypes.Name, user.Username),
+                new Claim(ClaimTypes.Role, user.Role.ToString())
             };
 
             var key = new SymmetricSecurityKey(
-                Encoding.UTF8.GetBytes(_configuration["jwt:secretKey"])
+                Encoding.UTF8.GetBytes(_jwtSettings.SecretKey)
             );
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
             var token = new JwtSecurityToken(
-                issuer: _configuration["jwt:Issuer"],
-                audience: _configuration["jwt:Audience"],
+                issuer: _jwtSettings.Issuer,
+                audience: _jwtSettings.Audience,
                 claims: claims,
-                expires: DateTime.Now.AddHours(1),
+                expires: DateTime.UtcNow.AddHours(_jwtSettings.ExpirationHours),
                 signingCredentials: creds
             );
 

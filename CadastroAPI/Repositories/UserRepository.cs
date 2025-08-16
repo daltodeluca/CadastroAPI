@@ -45,11 +45,11 @@ namespace CadastroAPI.Repositories
         }
         public async Task<UserEntity?> GetByNameAsync(string name)
         {
-            return await _context.Users.FirstOrDefaultAsync(u => u.Name == name);
+            return await _context.Users.FirstOrDefaultAsync(u => u.Username == name);
         }
         public async Task<bool> UserExistsAsync(string name)
         {
-            return await _context.Users.AnyAsync(u => u.Name == name);
+            return await _context.Users.AnyAsync(u => u.Username == name);
         }
     }
 }

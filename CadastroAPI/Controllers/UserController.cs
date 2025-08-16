@@ -1,5 +1,4 @@
 ﻿using CadastroAPI.Models;
-using CadastroAPI.Entities;
 using CadastroAPI.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,12 +9,10 @@ namespace CadastroAPI.Controllers
     public class UserController : Controller
     {
         private readonly IUserService _userService;
-        private readonly IAuthService _authService;
 
-        public UserController(IUserService userService, IAuthService authService)
+        public UserController(IUserService userService)
         {
             _userService = userService;
-            _authService = authService;
         }
 
         [HttpPost("register")]
@@ -23,14 +20,10 @@ namespace CadastroAPI.Controllers
         {
             try
             {
-                var result = await _userService.RegisterAsync(model, _authService);
+                var result = await _userService.RegisterAsync(model);
                 return Ok(result);
             }
-            catch (ArgumentException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            catch (InvalidOperationException ex)
+            catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
@@ -41,20 +34,16 @@ namespace CadastroAPI.Controllers
         {
             try
             {
-                var result = await _userService.LoginAsync(model, _authService);
+                var result = await _userService.LoginAsync(model);
                 return Ok(result);
-            }
-            catch (ArgumentException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            catch (InvalidOperationException ex)
-            {
-                return Unauthorized(ex.Message);
             }
             catch (UnauthorizedAccessException ex)
             {
                 return Unauthorized(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
             }
         }
     }
