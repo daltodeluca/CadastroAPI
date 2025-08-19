@@ -4,6 +4,7 @@ using CadastroAPI.Repositories;
 using CadastroAPI.Mappers;
 using System.Security.Cryptography;
 using System.Text;
+using CadastroAPI.Security;
 
 namespace CadastroAPI.Services
 {
@@ -11,31 +12,30 @@ namespace CadastroAPI.Services
     {
         private readonly IUserRepository _userRepository;
         private readonly IAuthService _authService;
+        private readonly IEncryptionManagement _encryptionManagement;
 
         private static Dictionary<string, int> loginAttempts = new();
 
-        public UserService(IUserRepository userRepository, IAuthService authService)
+        public UserService(IUserRepository userRepository, IAuthService authService, IEncryptionManagement encryptionManagement)
         {
             _userRepository = userRepository;
             _authService = authService;
+            _encryptionManagement = encryptionManagement;
         }
 
-        public async Task<UserTokenModel?> RegisterAsync(UserRegisterModel model)
+        public async Task RegisterAsync(UserRegisterModel model)
         {
             var existingUser = await _userRepository.GetByNameAsync(model.Username);
             if (existingUser != null)
                 throw new InvalidOperationException("Usuário já existe.");
 
-            using var hmac = new HMACSHA512();
-            var passwordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(model.Password));
-            var passwordSalt = hmac.Key;
+            var (passwordHash, passwordSalt) = _encryptionManagement.HashPassword(model.Password);
 
             var userEntity = model.ToEntity(passwordHash, passwordSalt);
 
-            var createdUser = await _userRepository.CreateAsync(userEntity);
-            var token = _authService.GenerateToken(createdUser);
+            await _userRepository.CreateAsync(userEntity);
 
-            return createdUser.ToTokenModel(token);
+            return;
         }
 
         public async Task<UserTokenModel?> LoginAsync(UserLoginModel model)
@@ -51,13 +51,9 @@ namespace CadastroAPI.Services
                 throw new UnauthorizedAccessException("Usuário ou senha inválidos.");
             }
 
-            using var hmac = new HMACSHA512(user.PasswordSalt);
-            var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(model.Password));
-            if (!computedHash.SequenceEqual(user.PasswordHash))
-            {
-                loginAttempts[model.Username] = attempts + 1;
+            if (!_encryptionManagement.VerifyPassword(model.Password, user.PasswordHash, user.PasswordSalt))
                 throw new UnauthorizedAccessException("Usuário ou senha inválidos.");
-            }
+
 
             loginAttempts[model.Username] = 0;
 
@@ -79,9 +75,7 @@ namespace CadastroAPI.Services
 
         public async Task<UserGetModel> CreateAsync(UserCreateModel model)
         {
-            using var hmac = new HMACSHA512();
-            var passwordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(model.Password));
-            var passwordSalt = hmac.Key;
+            var (passwordHash, passwordSalt) = _encryptionManagement.HashPassword(model.Password);
 
             var entity = model.ToEntity(passwordHash, passwordSalt);
             var created = await _userRepository.CreateAsync(entity);
@@ -97,11 +91,10 @@ namespace CadastroAPI.Services
             byte[]? passwordHash = null;
             byte[]? passwordSalt = null;
 
+
             if (!string.IsNullOrEmpty(model.Password))
             {
-                using var hmac = new HMACSHA512();
-                passwordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(model.Password));
-                passwordSalt = hmac.Key;
+                (passwordHash, passwordSalt) = _encryptionManagement.HashPassword(model.Password);
             }
 
             model.MapUpdateModelToEntity(entity, passwordHash, passwordSalt);

@@ -16,12 +16,12 @@ namespace CadastroAPI.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<ActionResult<UserTokenModel>> Register([FromBody] UserRegisterModel model)
+        public async Task<ActionResult> Register([FromBody] UserRegisterModel model)
         {
             try
             {
-                var result = await _userService.RegisterAsync(model);
-                return Ok(result);
+                await _userService.RegisterAsync(model);
+                return Created(string.Empty, "Usuário registrado.");
             }
             catch (Exception ex)
             {
