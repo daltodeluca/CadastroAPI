@@ -3,6 +3,7 @@ using CadastroAPI.Auth;
 using CadastroAPI.Data;
 using CadastroAPI.Repositories;
 using CadastroAPI.Services;
+using CadastroAPI.Security;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -19,6 +20,7 @@ builder.Services.AddScoped<IPersonService, PersonService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IEncryptionManagement, EncryptionManagement>();
 
 builder.Services.AddControllers()
     .AddJsonOptions(options =>

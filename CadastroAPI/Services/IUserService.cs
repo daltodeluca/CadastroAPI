@@ -7,7 +7,7 @@ namespace CadastroAPI.Services
 {
     public interface IUserService
     {
-        Task<UserTokenModel?> RegisterAsync(UserRegisterModel model);
+        Task RegisterAsync(UserRegisterModel model);
         Task<UserTokenModel?> LoginAsync(UserLoginModel model);
         Task<IEnumerable<UserGetModel>> GetAllAsync();
         Task<UserGetModel?> GetByIdAsync(int id);
