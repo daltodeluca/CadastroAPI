@@ -9,6 +9,5 @@ namespace CadastroAPI.Entities
         public string Email { get; set; }
         public DateTime BirthDate { get; set; }
         public string Phone { get; set; }
-        public DateTime CreatedAt { get; set; }
     }
 }
