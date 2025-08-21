@@ -5,33 +5,33 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CadastroAPI.Repositories
 {
-    public class PessoaRepository : IPessoaRepository
+    public class PersonRepository : IPersonRepository
     {
         private readonly AppDbContext _context;
 
-        public PessoaRepository(AppDbContext context)
+        public PersonRepository(AppDbContext context)
         {
             _context = context;
         }
-        public async Task<IEnumerable<PessoaEntity>> GetAllAsync()
+        public async Task<IEnumerable<PersonEntity>> GetAllAsync()
         {
             return await _context.People.ToListAsync();
         }
-        public async Task<PessoaEntity?> GetByIdAsync(int id)
+        public async Task<PersonEntity?> GetByIdAsync(int id)
         {
             return await _context.People.FindAsync(id);
         }
-        public async Task<PessoaEntity> CreateAsync(PessoaEntity entity)
+        public async Task<PersonEntity> CreateAsync(PersonEntity person)
         {
-            _context.People.Add(entity);
+            _context.People.Add(person);
             await _context.SaveChangesAsync();
-            return entity;
+            return person;
         }
-        public async Task<PessoaEntity> UpdateAsync(PessoaEntity entity)
+        public async Task<PersonEntity> UpdateAsync(PersonEntity person)
         {
-            _context.People.Update(entity);
+            _context.People.Update(person);
             await _context.SaveChangesAsync();
-            return entity;
+            return person;
         }
         public async Task<bool> DeleteAsync(int id)
         {
