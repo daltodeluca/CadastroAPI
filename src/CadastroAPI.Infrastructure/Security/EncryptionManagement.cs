@@ -1,6 +1,6 @@
 ﻿using System.Security.Cryptography;
-using CadastroAPI.Application.Interfaces.Security;
 using System.Text;
+using CadastroAPI.Domain.Services;
 
 namespace CadastroAPI.Infrastructure.Security
 {

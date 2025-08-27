@@ -1,8 +1,7 @@
 ﻿using CadastroAPI.Domain.Entities;
 using CadastroAPI.Infrastructure.Persistence;
-using CadastroAPI.Application.Models;
-using CadastroAPI.Application.Interfaces.Repositories;
 using Microsoft.EntityFrameworkCore;
+using CadastroAPI.Domain.Repositories;
 
 namespace CadastroAPI.Infrastructure.Repositories
 {
@@ -46,11 +45,11 @@ namespace CadastroAPI.Infrastructure.Repositories
         }
         public async Task<UserEntity?> GetByNameAsync(string name)
         {
-            return await _context.Users.FirstOrDefaultAsync(u => u.Username == name);
+            return await _context.Users.FirstOrDefaultAsync(u => u.Username.Name == name);
         }
         public async Task<bool> UserExistsAsync(string name)
         {
-            return await _context.Users.AnyAsync(u => u.Username == name);
+            return await _context.Users.AnyAsync(u => u.Username.Name == name);
         }
     }
 }

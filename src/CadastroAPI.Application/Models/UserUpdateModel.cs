@@ -10,7 +10,7 @@ namespace CadastroAPI.Application.Models
         public string Username { get; set; }
 
         [Required(ErrorMessage = "O cargo é obrigatório.")]
-        public UserRole Role { get; set; }
+        public EUserRole Role { get; set; }
 
         [StringLength(50, ErrorMessage = "A senha deve ter entre 6 e 50 caracteres.", MinimumLength = 6)]
         [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$#!%*?&]).{6,50}$",

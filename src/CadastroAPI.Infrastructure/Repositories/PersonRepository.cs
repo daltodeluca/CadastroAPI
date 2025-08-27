@@ -1,7 +1,6 @@
 ﻿using CadastroAPI.Domain.Entities;
 using CadastroAPI.Infrastructure.Persistence;
-using CadastroAPI.Application.Models;
-using CadastroAPI.Application.Interfaces.Repositories;
+using CadastroAPI.Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace CadastroAPI.Infrastructure.Repositories

@@ -1,12 +1,12 @@
 using CadastroAPI.Domain.Entities;
 using CadastroAPI.Application.Models;
-using CadastroAPI.Application.Interfaces.Repositories;
 using CadastroAPI.Application.Mappers;
 using System.Security.Cryptography;
 using System.Text;
 using CadastroAPI.Infrastructure.Security;
 using CadastroAPI.Application.Interfaces.Services;
-using CadastroAPI.Application.Interfaces.Security;
+using CadastroAPI.Domain.Repositories;
+using CadastroAPI.Domain.Services;
 
 
 namespace CadastroAPI.Infrastructure.Services
@@ -54,7 +54,7 @@ namespace CadastroAPI.Infrastructure.Services
                 throw new UnauthorizedAccessException("Usuário ou senha inválidos.");
             }
 
-            if (!_encryptionManagement.VerifyPassword(model.Password, user.PasswordHash, user.PasswordSalt))
+            if (!_encryptionManagement.VerifyPassword(model.Password, user.Password.Hash, user.Password.Salt))
                 throw new UnauthorizedAccessException("Usuário ou senha inválidos.");
 
 

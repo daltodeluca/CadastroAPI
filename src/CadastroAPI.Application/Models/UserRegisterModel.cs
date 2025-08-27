@@ -15,6 +15,6 @@ namespace CadastroAPI.Application.Models
         public string Password { get; set; }
 
         [Required(ErrorMessage = "O cargo é obrigatório.")]
-        public UserRole Role { get; set; }
+        public EUserRole Role { get; set; }
     }
 }

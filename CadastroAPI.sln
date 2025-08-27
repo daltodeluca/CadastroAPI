@@ -11,7 +11,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CadastroAPI.Application", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CadastroAPI.Infrastructure", "src\CadastroAPI.Infrastructure\CadastroAPI.Infrastructure.csproj", "{A85D894A-F19A-4F5F-B1A2-7C586AF20F46}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CadastroAPI.Service", "src\CadastroAPI.API\CadastroAPI.Service.csproj", "{C3ED5E37-A266-466C-A3F9-74AD0E1B1277}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CadastroAPI.Api", "src\CadastroAPI.API\CadastroAPI.Api.csproj", "{C3ED5E37-A266-466C-A3F9-74AD0E1B1277}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{0AB3BF05-4346-4AA6-1389-037BE0695223}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CadastroAPI.Tests", "tests\CadastroAPI.Tests\CadastroAPI.Tests.csproj", "{4486D9BC-CDCC-41E8-BD47-1D2AFCDA3664}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -71,6 +75,18 @@ Global
 		{C3ED5E37-A266-466C-A3F9-74AD0E1B1277}.Release|x64.Build.0 = Release|Any CPU
 		{C3ED5E37-A266-466C-A3F9-74AD0E1B1277}.Release|x86.ActiveCfg = Release|Any CPU
 		{C3ED5E37-A266-466C-A3F9-74AD0E1B1277}.Release|x86.Build.0 = Release|Any CPU
+		{4486D9BC-CDCC-41E8-BD47-1D2AFCDA3664}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4486D9BC-CDCC-41E8-BD47-1D2AFCDA3664}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4486D9BC-CDCC-41E8-BD47-1D2AFCDA3664}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{4486D9BC-CDCC-41E8-BD47-1D2AFCDA3664}.Debug|x64.Build.0 = Debug|Any CPU
+		{4486D9BC-CDCC-41E8-BD47-1D2AFCDA3664}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{4486D9BC-CDCC-41E8-BD47-1D2AFCDA3664}.Debug|x86.Build.0 = Debug|Any CPU
+		{4486D9BC-CDCC-41E8-BD47-1D2AFCDA3664}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4486D9BC-CDCC-41E8-BD47-1D2AFCDA3664}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4486D9BC-CDCC-41E8-BD47-1D2AFCDA3664}.Release|x64.ActiveCfg = Release|Any CPU
+		{4486D9BC-CDCC-41E8-BD47-1D2AFCDA3664}.Release|x64.Build.0 = Release|Any CPU
+		{4486D9BC-CDCC-41E8-BD47-1D2AFCDA3664}.Release|x86.ActiveCfg = Release|Any CPU
+		{4486D9BC-CDCC-41E8-BD47-1D2AFCDA3664}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -80,6 +96,7 @@ Global
 		{DA453945-98C5-45FB-B454-F3343D0CE664} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
 		{A85D894A-F19A-4F5F-B1A2-7C586AF20F46} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
 		{C3ED5E37-A266-466C-A3F9-74AD0E1B1277} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
+		{4486D9BC-CDCC-41E8-BD47-1D2AFCDA3664} = {0AB3BF05-4346-4AA6-1389-037BE0695223}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A662DA1E-15CB-4064-A0D3-05B296D8E5D8}

@@ -1,9 +1,7 @@
 ﻿using CadastroAPI.Application.Models;
-using CadastroAPI.Infrastructure.Repositories;
-using CadastroAPI.Domain.Entities;
 using CadastroAPI.Application.Mappers;
 using CadastroAPI.Application.Interfaces.Services;
-using CadastroAPI.Application.Interfaces.Repositories;
+using CadastroAPI.Domain.Repositories;
 
 namespace CadastroAPI.Infrastructure.Services
 {

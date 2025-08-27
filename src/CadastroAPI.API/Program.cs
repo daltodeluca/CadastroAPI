@@ -5,18 +5,20 @@ using System.Text;
 using System.Text.Json.Serialization;
 using CadastroAPI.Infrastructure.Repositories;
 using CadastroAPI.Infrastructure.Services;
-using CadastroAPI.Application.Interfaces.Repositories;
 using CadastroAPI.Application.Interfaces.Services;
-using CadastroAPI.Application.Interfaces.Security;
 using CadastroAPI.Application.Settings;
 using CadastroAPI.Infrastructure.Security;
 using CadastroAPI.Infrastructure.Persistence;
+using CadastroAPI.Domain.Repositories;
+using CadastroAPI.Domain.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"),
+        b => b.MigrationsAssembly("CadastroAPI.Infrastructure")));
+
 builder.Services.AddScoped<IPersonRepository, PersonRepository>();
 builder.Services.AddScoped<IPersonService, PersonService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();

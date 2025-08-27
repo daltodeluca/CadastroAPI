@@ -1,25 +1,42 @@
 ﻿using CadastroAPI.Domain.Enums;
+using CadastroAPI.Domain.ValueObjects;
 using System;
 
 namespace CadastroAPI.Domain.Entities
 {
     public class UserEntity : BaseEntity
     {
-        public string Username { get; set; }
-        public byte[] PasswordHash { get; set; }
-        public byte[] PasswordSalt { get; set; }
-        public UserRole Role { get; set; }
+        public Username Username { get; private set; }
+        public Password Password { get; private set; }
+        public EUserRole Role { get; private set; }
 
-        public UserEntity(string username, UserRole role)
+        protected UserEntity() { }
+
+        public UserEntity(Username username, Password password, EUserRole role)
         {
-            Username = username;
+            Username = username ?? throw new ArgumentNullException(nameof(username));
+            Password = password ?? throw new ArgumentNullException(nameof(password));
             Role = role;
         }
 
-        public void SetPassword(byte[] passwordHash, byte[] passwordSalt)
+        public UserEntity(Username username, EUserRole role)
         {
-            PasswordHash = passwordHash;
-            PasswordSalt = passwordSalt;
+            Username = username ?? throw new ArgumentNullException(nameof(username));
+            Role = role;
+        }
+
+        public void SetPassword(Password password)
+        {
+            Password = password ?? throw new ArgumentNullException(nameof(password));
+        }
+        public void UpdateUsername(Username username)
+        {
+            Username = username ?? throw new ArgumentNullException(nameof(username));
+        }
+
+        public void UpdateRole(EUserRole role)
+        {
+            Role = role;
         }
     }
 }

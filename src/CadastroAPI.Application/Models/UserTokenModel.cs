@@ -6,7 +6,7 @@ namespace CadastroAPI.Application.Models
     {
         public string Token { get; set; }
         public string Username { get; set; }
-        public UserRole Role { get; set; }
+        public EUserRole Role { get; set; }
         public DateTime Expiration { get; set; }
     }
 }
